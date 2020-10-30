@@ -13,7 +13,7 @@
           <span>$</span>{{product.price}}
         </div>
         <div class="product__button">
-          <button class="btn btn-cart">Add to card</button>
+          <button class="btn btn-cart" @click="addToCart(product)">Add to card</button>
         </div>
         </div>
       </div>
@@ -22,9 +22,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Products",
+  methods: {
+   ...mapActions(['addToCart'])
+  },
   computed: {
     ...mapGetters(['getProducts'])
   }

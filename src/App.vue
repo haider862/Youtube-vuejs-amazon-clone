@@ -33,8 +33,24 @@ body {
 .row {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
 }
 .col-4 {
   width: 33.33333333333333%;
+}
+.col-3 {
+  width: 25%;
+}
+.col-6 {
+  width: 50%;
+}
+.col-9 {
+  width: 75%;
+}
+.col-2 {
+  width: 16.66666666666667%;
+}
+.col-8 {
+  width: 66.66666666666667%;
 }
 </style>
