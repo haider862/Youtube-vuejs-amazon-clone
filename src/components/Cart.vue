@@ -2,7 +2,8 @@
   <div class="cartContainer" v-if="getCart.products.length > 0">
     <h3>Shopping Cart</h3>
     <div class="row">
-    <div class="col-9 mt-20" v-for="(product, index) in getCart.products" :key="index">
+      <div class="col-9">
+    <div class="mt-20 borderBottom" v-for="(product, index) in getCart.products" :key="index">
      <div class="row">
        <div class="col-2">
          <div class="cart__img">
@@ -15,7 +16,7 @@
           <div class="row mt-20">
             <div class="col-6">
            
-              <select v-model="product.quantity" @change="hello" class="select">
+              <select class="select" v-model="product.quantity" @change="updateQty($event, product.id)">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -29,7 +30,7 @@
               </select>
             </div>
             <div class="col-6">
-              <button class="cartButton">Delete</button>
+              <button class="cartButton" @click="deleteProduct(product.id)">Delete</button>
             </div>
           </div>
          </div>
@@ -41,8 +42,17 @@
        </div>
      </div>
     </div>
+    </div>
     <div class="col-3">
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos in eligendi dolore debitis eos, impedit laboriosam modi dolor cumque beatae, dolorem suscipit. Repellendus, voluptatum ab maiores error ipsum earum neque?
+      <div class="summary">
+       <div class="summary-child">
+         <h4> ({{getQuantities}} Items )</h4>
+       <h3>${{getPrice}}</h3><br><br>
+       <button class="checkout">Procced to checkout</button>
+       </div>
+      </div>
+     
+      
     </div>
     </div>
   </div>
@@ -54,21 +64,18 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
    name: 'Cart',
-   data(){
-     return {
-      quantity: [1,2,3,4,5,6,7,8,9],
-     }
-   },
    methods: {
-   hello: (e) => {
-     console.log(e.target.value);
-   }
+     ...mapActions(['updateQuantity','deleteProduct']),
+     updateQty(e, id) {
+       this.updateQuantity({qty: e.target.value, id});
+     },
    },
    computed: {
-     ...mapGetters(['getCart'])
+     ...mapGetters(['getCart','getPrice','getQuantities']),
+     
    }
 }
 </script>
@@ -93,6 +100,7 @@ export default {
 .cartButton {
   background:transparent;
   border:none;
+  outline: none;
 }
 .mt-20 {
   margin-top: 10px;
@@ -100,11 +108,40 @@ export default {
 .productPrice {
   font-size: 24px;
 }
-/* .select {
-  background: linear-gradient(to bottom,#f7f8fa,#e7e9ec);
+.select {
+  background: linear-gradient(to bottom, #f7f8fa, #e7e9ec);
   height: 29px;
   border-radius: 2px;
   border: 1px solid #8D9096;
   padding: 5px 10px;
-} */
+}
+.borderBottom {
+  border-bottom: 1px solid #DDD;
+  padding-bottom: 20px;
+}
+.summary {
+  padding :20px;
+}
+.summary-child {
+   background: #f3f3f3!important;
+   padding: 15px;
+}
+.summary h3 {
+  margin-top: 15px;
+  font-size: 30px;
+}
+
+.checkout {
+  background: #f0c14b;
+  border: 1px solid;
+  border-color: #a88734 #9c7e31 #846a29;
+  color: #111;
+  outline: none;
+  width: 100%;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
 </style>
